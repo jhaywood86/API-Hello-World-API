@@ -2,7 +2,7 @@ const express = require('express')
 const languages = express.Router()
 const Language = require('../models/language.js')
 
-module.exports = languages
+
 
 // Seed:
 languages.get('/seed', (req, res) => {
@@ -50,6 +50,18 @@ languages.get('/', (req, res) => {
         })
 })
 
+// Random
+languages.get("/random", (req, res) => {
+    Language.find()
+    .then(foundLanguages => {
+        console.log('----')
+        var randomLanguage = foundLanguages[Math.floor(Math.random()*foundLanguages.length)]
+        res.json(randomLanguage);
+        console.log('random', randomLanguage)
+    }
+    );
+  });
+
 // Show:
 languages.get('/:name', (req, res) => {
     Language.findOne({ name: req.params.name.toLowerCase() })
@@ -57,3 +69,9 @@ languages.get('/:name', (req, res) => {
             res.json(foundLanguage)
         })
 })
+
+
+
+
+
+module.exports = languages
